@@ -861,6 +861,7 @@ void node_msg_proc(struct bufferevent *bev, MSG_HEADS *msg_head, char *msg_body)
     if (!msgid2str(msg_head->msgid))
     {
         LOG(ERROR) << "Unknow msg id";
+        ydsyslog(LLOG_INFO, "%s", "Unknow msg id!");
         return;
     }
 
@@ -881,7 +882,7 @@ void node_msg_proc(struct bufferevent *bev, MSG_HEADS *msg_head, char *msg_body)
 		if(ret != 0)
 		{
 			LOG(ERROR) << "write_node_id to file fail!";
-			return;
+			// return;
 		}
         return;
         
@@ -916,6 +917,8 @@ void node_msg_proc(struct bufferevent *bev, MSG_HEADS *msg_head, char *msg_body)
         // hmac
         hmac_sha256(g_hmackey, sizeof(g_hmackey), (unsigned char*)&enbody, enbody_len,
                     head.check_sum, sizeof(head.check_sum));
+
+        ydsyslog(LLOG_INFO, "%s", "Reboot!");
 
         fd = bufferevent_getfd(bev);
 		if (fd > 0)
