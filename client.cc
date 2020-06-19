@@ -1080,8 +1080,8 @@ static void client_event_cb(struct bufferevent *bev, short events, void *ctx)
 	}
 	if (events & (BEV_EVENT_TIMEOUT|BEV_EVENT_READING))
 	{
-		LOG(INFO) << "start send heart";
-		node_send_heart(bev);
+		// LOG(INFO) << "start send heart";
+		// node_send_heart(bev);
 	}
 }
 
@@ -1126,6 +1126,9 @@ void socket_connect_cb(evutil_socket_t fd, short events, void *arg)
 
     if(g_auth == 0 && bev != NULL)
         node_send_auth(bev);
+    else{
+        node_send_heart(bev);
+    }
     
 }
 
